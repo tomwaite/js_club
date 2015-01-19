@@ -1,0 +1,32 @@
+<HTML>
+<HEAD>
+<TITLE> Second Week in Javascript </TITLE>
+</HEAD>
+<BODY>
+<h2 id="Example">Third Example!</h2>
+
+<h1 id="id1">Please press the button below...</h1>
+
+<button type="button" onclick="h()"> Click Me!</button>
+
+<script>
+function hitme(){
+var elt = document.getElementById('id1');
+elt.style.color = 'red';
+elt.innerHTML = "Thanks, buddy"
+//console.log(fib(42))
+}
+
+h = hitme
+
+function fib( n){
+	if (n < 2)
+		return 1;
+	return fib(n-1) + fib(n-2)
+}
+
+//console.log(fib(42))
+
+</script>
+</BODY>
+</HTML>
