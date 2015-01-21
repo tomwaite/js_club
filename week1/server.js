@@ -7,6 +7,7 @@ var serve = serveStatic("./");
 
 var server = http.createServer(function(req, res){
   var done = finalhandler(req, res)
+  console.log(req)
   serve(req, res, done)
 });
 
