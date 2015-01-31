@@ -3,7 +3,8 @@
 $(function(){
 
 	// getting the id of the room from the url
-	var id = Number(window.location.pathname.match(/\/chat\/(\d+)$/)[1]);
+	//var id = Number(window.location.pathname.match(/\/chat\/(\d+)$/)[1]);
+	var id = Number(window.location.pathname.match(/\/eliza\/(\d+)$/)[1]);
 
 	// connect to the socket
 	var socket = io.connect('/socket');
@@ -80,7 +81,7 @@ $(function(){
 				}
 				else {
 
-					showMessage("inviteSomebody");
+					/// get eliza going! showMessage("inviteSomebody");
 
 					// call the server-side function 'login' and send user's parameters
 					socket.emit('login', {user: name, avatar: email, id: id});

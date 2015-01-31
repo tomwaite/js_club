@@ -6,6 +6,10 @@
 
 var gravatar = require('gravatar');
 
+var ElizaBot = require('./node-eliza/elizabot.js')
+var eliza = new ElizaBot
+eliza.memSize = 1024
+
 // Export a function, so that we can pass 
 // the app and io instances from the app.js file:
 
@@ -27,14 +31,14 @@ module.exports = function(app,io){
 		res.redirect('/chat/'+id);
 	});
 
-	app.get('/eliza', function(req,res){
+	app.get('/eliza/1966', function(req,res){
 
 		res.render('chat')
 	});
 
 	app.get('/chat/:id', function(req,res){
 
-		// Render the chant.html view
+		// Render the chat.html view
 		res.render('chat');
 	});
 
@@ -89,16 +93,16 @@ module.exports = function(app,io){
 				// Add the client to the room
 				socket.join(data.id);
 
-				if(chat.clients(data.id).length == 2) {
+				//if(chat.clients(data.id).length == 2) {
 
 					var usernames = [],
 						avatars = [];
 
 					usernames.push(chat.clients(data.id)[0].username);
-					usernames.push(chat.clients(data.id)[1].username);
+					usernames.push('Eliza');
 
 					avatars.push(chat.clients(data.id)[0].avatar);
-					avatars.push(chat.clients(data.id)[1].avatar);
+					avatars.push(null);
 
 					// Send the startChat event to all the people in the
 					// room, along with a list of people that are in it.
@@ -109,7 +113,7 @@ module.exports = function(app,io){
 						users: usernames,
 						avatars: avatars
 					});
-				}
+				//}
 
 			}
 			else {
@@ -137,9 +141,14 @@ module.exports = function(app,io){
 
 		// Handle the sending of messages
 		socket.on('msg', function(data){
-
+			console.log(data.msg)
+			
+			//we received a msg from the human, 
+			var reply = eliza.transform(data.msg)
+			console.log(reply)
 			// When the server receives a message, it sends it to the other person in the room.
-			socket.broadcast.to(socket.room).emit('receive', {msg: data.msg, user: data.user, img: data.img});
+			//socket.broadcast.to(socket.room).emit('receive', {msg: reply, user: 'Eliza', img: data.img});
+			socket.emit('receive', {msg: reply, user: 'Eliza', img: data.img});
 		});
 	});
 };
