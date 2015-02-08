@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>A Pretty Boring Game...</title>
+    <meta charset="utf-8">
+ 
+    <style>
+ 
+    #button {
+        width:100px;
+        height:50px;
+        position:absolute;
+        top:100px;
+        left:100px;
+    }
+ 
+    </style>
+</head>
+<body>
+ 
+    <button id="button">Click Me if you can!</button>
+ 
+<script>
+    var button = document.getElementById("button");
+    var browserWidth = window.innerWidth || document.documentElement.clientWidth;
+    var browserHeight = window.innerHeight || document.documentElement.clientHeight;
+    var buttonWidth = button.offsetWidth;
+    var buttonHeight = button.offsetHeight;
+	
+	document.bgColor = "red";
+	
+	
+	var timer_id = setInterval(smoothMove, 400); // call move every 400ms
+	
+    function smoothMove() {
+      translate(button, getNewRandomPoint(browserWidth-buttonWidth), getNewRandomPoint(browserHeight-buttonHeight));
+	 
+	  
+    }
+	
+	function jumpyMove() {
+      button.style.left =  getNewRandomPoint(browserWidth-buttonWidth)+ "px";
+      button.style.top = getNewRandomPoint(browserHeight-buttonHeight) + "px";
+	}
+ 
+ 
+	function getNewRandomPoint(range){
+		return Math.floor(Math.random()*range);
+	}
+	
+	button.onclick = stopMove
+	
+	function stopMove(){ 
+		alert("You got me!");
+		clearInterval(timer_id);
+	}
+
+
+	function css( element, property ) {
+		return window.getComputedStyle( element, null ).getPropertyValue( property );
+		// inline only! return element.style.getPropertyValue( property );
+		// doesn't update return document.styleSheets[0].rules[0].style.getPropertyValue(property);
+	}
+
+	function translate( elem, x, y ) {
+    var left = parseInt( css( elem, 'left' ), 10 ),
+        top = parseInt( css( elem, 'top' ), 10 ),
+        dx = left - x,
+        dy = top - y,
+        i = 1,
+        count = 20,
+        delay = 20;
+    
+    function loop() {
+        if ( i >= count ) { return; }
+        i += 1;
+        elem.style.left = ( left - ( dx * i / count ) ).toFixed( 0 ) + 'px';
+        elem.style.top = ( top - ( dy * i / count ) ).toFixed( 0 ) + 'px';
+        setTimeout( loop, delay );
+    }
+    
+    loop();
+}
+	
+</script>
+</body>
+</html>
